@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { estados } from '../../constants/estados';
-import { salvarProduto } from '../../database/produtos';
+import { estados } from '../constants/estados';
+import { salvarProduto } from '../database/produtos';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { v4 as uuidv4 } from 'uuid';
 
