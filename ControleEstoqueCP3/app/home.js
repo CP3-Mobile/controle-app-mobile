@@ -5,22 +5,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function Home({ navigation }) {
   return (
     <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
-      <Image source={require('../assets/product.png')} style={styles.logo} />
+      <Image source={require('../assets/controle-estoque.png')} style={styles.logo} />
 
-      <Text style={styles.title}>Bem-vindo ao Controle de Estoque</Text>
+      <Text style={styles.title}>Bem-vindo ao Controle de Estoque!</Text>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Cadastro')}
       >
-        <Text style={styles.buttonText}>Cadastrar Produto</Text>
+        <Text style={styles.buttonText}>Cadastrar Produtos</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Lista')}
       >
-        <Text style={styles.buttonText}>Produtos Cadastrados</Text>
+        <Text style={styles.buttonText}>Lista de Produtos</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -41,10 +41,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 20,
-    borderRadius: 60,
+    width: 170,
+    height: 220,
+    marginBottom: 40,
   },
   title: {
     fontSize: 22,
@@ -58,6 +57,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
+    marginBottom: 25,
   },
   buttonText: {
     color: '#007bff',

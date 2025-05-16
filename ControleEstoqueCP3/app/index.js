@@ -1,6 +1,70 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Home from './home';
+import Cadastro from './cadastro';
+import Lista from './lista';
+import Desenvolvedores from './desenvolvedores';
+
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
+          else if (route.name === 'Cadastro') iconName = focused ? 'add-circle' : 'add-circle-outline';
+          else if (route.name === 'Lista') iconName = focused ? 'list' : 'list-outline';
+          else if (route.name === 'Devs') iconName = focused ? 'person' : 'person-outline';
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#007bff',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Cadastro" component={Cadastro} />
+      <Tab.Screen name="Lista" component={Lista} />
+      <Tab.Screen name="Devs" component={Desenvolvedores} />
+    </Tab.Navigator>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Tabs">
+        <Stack.Screen name="Home" component={HomeTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="Lista" component={Lista} />
+        <Stack.Screen name="Desenvolvedores" component={Desenvolvedores} />
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
+
+
+
+
+
+
+/*import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from './home';
 import Cadastro from './cadastro';
@@ -11,7 +75,43 @@ console.log({ Home, Cadastro, Lista, Desenvolvedores });
 
 const Stack = createNativeStackNavigator();
 
+const Tab = createBottomTabNavigator();
+
 export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Cadastro') {
+              iconName = focused ? 'add-circle' : 'add-circle-outline';
+            } else if (route.name === 'Lista') {
+              iconName = focused ? 'list' : 'list-outline';
+            } else if (route.name === 'Dev') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#007bff',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Cadastro" component={Cadastro} />
+        <Tab.Screen name="Lista" component={Lista} />
+        <Tab.Screen name="Dev" component={Desenvolvedores} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}*/
+
+/*export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -22,4 +122,4 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+}*/
