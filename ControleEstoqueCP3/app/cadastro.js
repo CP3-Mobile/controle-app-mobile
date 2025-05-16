@@ -103,7 +103,6 @@ export default function Cadastro() {
   }
 
   return (
-<<<<<<< HEAD
     <LinearGradient
     colors={['#2951ff', '#ff5959']}
     style={StyleSheet.absoluteFill}
@@ -114,15 +113,6 @@ export default function Cadastro() {
     >
       <ScrollView style={styles.container}>
         <Text style={styles.title}>Cadastro de Produto</Text>
-=======
-    <LinearGradient colors={['#94b9ff', '#cdffd8']} style={StyleSheet.absoluteFill}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <ScrollView style={styles.container}>
-          <Text style={styles.title}>Cadastro de Produto</Text>
->>>>>>> 572777a240011f26c73af5aea91eefc6588e6be9
 
           <TextInput
             style={styles.input}
@@ -277,10 +267,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   botaoScanner: {
-<<<<<<< HEAD
-=======
     flex: 1,
->>>>>>> 572777a240011f26c73af5aea91eefc6588e6be9
     backgroundColor: '#2951ff',
     padding: 12,
     borderRadius: 6,
