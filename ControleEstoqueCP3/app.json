@@ -23,8 +23,13 @@
           }
         }
       ],
-      "expo-barcode-scanner",
-      "expo-router"
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Precisamos acessar sua câmera para escanear códigos de barras.",
+          "microphonePermission": "Precisamos acessar seu microfone (caso necessário para vídeo)."
+        }
+      ]
     ]
   }
 }

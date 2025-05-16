@@ -1,5 +1,6 @@
-import { Slot } from 'expo-router';
+import { registerRootComponent } from 'expo';
+import App from './app/index';
 
-export default function App() {
-  return <Slot />;
-}
+registerRootComponent(App);
+
+export default App;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import {
   Platform
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const estados = [
@@ -21,7 +21,7 @@ const estados = [
   'RR', 'SC', 'SP', 'SE', 'TO'
 ];
 
-export default function CadastroProduto() {
+export default function Cadastro() {
   const [nome, setNome] = useState('');
   const [fabricacao, setFabricacao] = useState('');
   const [validade, setValidade] = useState('');
@@ -29,15 +29,14 @@ export default function CadastroProduto() {
   const [lote, setLote] = useState('');
   const [estado, setEstado] = useState('');
   const [codigoBarras, setCodigoBarras] = useState('');
-  const [temPermissao, setTemPermissao] = useState(null);
   const [scannerAtivo, setScannerAtivo] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
 
   useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setTemPermissao(status === 'granted');
-    })();
-  }, []);
+    if (!permission?.granted) {
+      requestPermission();
+    }
+  }, [permission]);
 
   const handleBarCodeScanned = ({ data }) => {
     setScannerAtivo(false);
@@ -85,12 +84,17 @@ export default function CadastroProduto() {
     setCodigoBarras('');
   };
 
-  if (temPermissao === null) {
+  if (!permission) {
     return <Text>Solicitando permissão da câmera...</Text>;
   }
 
-  if (temPermissao === false) {
-    return <Text>Sem acesso à câmera.</Text>;
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text>Permissão para acessar a câmera negada.</Text>
+        <Button title="Permitir" onPress={requestPermission} />
+      </View>
+    );
   }
 
   return (
@@ -155,10 +159,21 @@ export default function CadastroProduto() {
         )}
 
         {scannerAtivo && (
-          <BarCodeScanner
-            onBarCodeScanned={handleBarCodeScanned}
-            style={styles.scanner}
-          />
+          <View style={styles.scannerContainer}>
+            <CameraView
+              onBarcodeScanned={handleBarCodeScanned}
+              style={StyleSheet.absoluteFillObject}
+              barcodeScannerSettings={{
+                barcodeTypes: ['qr', 'ean13', 'ean8', 'code128']
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => setScannerAtivo(false)}
+              style={styles.cancelarBotao}
+            >
+              <Text style={styles.textoBotao}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         )}
 
         <Button title="Salvar Produto" onPress={salvarProduto} color="#28a745" />
@@ -213,9 +228,19 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold'
   },
-  scanner: {
-    width: '100%',
-    height: 300,
-    marginBottom: 20
+  scannerContainer: {
+    height: 400,
+    marginBottom: 20,
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 10
+  },
+  cancelarBotao: {
+    backgroundColor: 'red',
+    padding: 10,
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
+    borderRadius: 6
   }
 });
