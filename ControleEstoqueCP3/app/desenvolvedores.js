@@ -43,8 +43,8 @@ export default function Desenvolvedores() {
           rm="557129"
           sala="2TDSPF"
           imgSrc={require("../assets/jvb.png")}
-          githubUrl=""
-          linkedinUrl=""
+          githubUrl="https://github.com/joaobroggine"
+          linkedinUrl="https://www.linkedin.com/in/joaobroggine/"
         />
       </ScrollView>
     </LinearGradient>
