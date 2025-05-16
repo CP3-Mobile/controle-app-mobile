@@ -6,7 +6,7 @@ import Desenvolvedor from "../components/Desenvolvedor";
 
 export default function Desenvolvedores() {
   return (
-    <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
+    <LinearGradient colors={['#2951ff', '#ff5959']} style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
         <Stack.Screen
           options={{
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 23,
-    color: "black",
+    color: "white",
     fontWeight: "bold",
     alignSelf: "center",
     marginBottom: 24,

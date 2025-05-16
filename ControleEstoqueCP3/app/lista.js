@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);
@@ -33,15 +34,16 @@ export default function ListaProdutos() {
   );
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={['#2951ff', '#ff5959']} style={styles.container}>
       <Text style={styles.title}>Lista de Produtos</Text>
       <FlatList
         data={produtos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         ListEmptyComponent={<Text style={styles.emptyText}>Nenhum produto cadastrado.</Text>}
+        contentContainerStyle={{ paddingBottom: 16 }}
       />
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -49,17 +51,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
+    marginTop: 20,
     marginBottom: 16,
     textAlign: 'center',
+    color: '#fff',
   },
   itemContainer: {
-    borderWidth: 1,
-    borderColor: '#ddd',
+    backgroundColor: '#ffffffcc',
     borderRadius: 8,
     padding: 12,
     marginBottom: 12,
@@ -67,10 +69,11 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 14,
     marginBottom: 4,
+    color: '#000',
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 20,
-    color: '#666',
+    color: '#fff',
   },
 });
