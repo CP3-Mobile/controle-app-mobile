@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const estados = [
@@ -98,6 +99,10 @@ export default function Cadastro() {
   }
 
   return (
+    <LinearGradient
+    colors={['#94b9ff', '#cdffd8']}
+    style={StyleSheet.absoluteFill}
+  >
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
@@ -179,15 +184,18 @@ export default function Cadastro() {
         <Button title="Salvar Produto" onPress={salvarProduto} color="#28a745" />
       </ScrollView>
     </KeyboardAvoidingView>
+  </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: '#fff',
     flex: 1
   },
+  scrollContainer: {
+  padding: 16,
+},
   title: {
     fontSize: 20,
     fontWeight: 'bold',

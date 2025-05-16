@@ -1,31 +1,67 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tela Inicial</Text>
+    <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
+      <Image source={require('../assets/product.png')} style={styles.logo} />
+
+      <Text style={styles.title}>Bem-vindo ao Controle de Estoque</Text>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Cadastro')}
       >
-        <Text style={styles.buttonText}>Ir para Cadastro</Text>
+        <Text style={styles.buttonText}>Cadastrar Produto</Text>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Lista')}
+      >
+        <Text style={styles.buttonText}>Produtos Cadastrados</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Desenvolvedores')}
+      >
+        <Text style={styles.buttonText}>Desenvolvedores</Text>
+      </TouchableOpacity>
+
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+    borderRadius: 60,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 30,
+    textAlign: 'center',
+  },
   button: {
-    backgroundColor: '#007bff',
-    padding: 12,
-    borderRadius: 6,
+    backgroundColor: '#ffffffaa',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: '#007bff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });
