@@ -25,9 +25,9 @@ export default function Home({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Desenvolvedor')}
+        onPress={() => navigation.navigate('Desenvolvedores')}
       >
-        <Text style={styles.buttonText}>Lista de Produtos</Text>
+        <Text style={styles.buttonText}>Desenvolvedores</Text>
       </TouchableOpacity>
 
     </LinearGradient>

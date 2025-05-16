@@ -29,7 +29,7 @@ export default function App() {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
             } else if (route.name === 'Lista') {
               iconName = focused ? 'list' : 'list-outline';
-            } else if (route.name === 'Dev') {
+            } else if (route.name === 'Desenvolvedores') {
               iconName = focused ? 'person' : 'person-outline';
             }
 
@@ -47,7 +47,7 @@ export default function App() {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Cadastro" component={Cadastro} />
         <Tab.Screen name="Lista" component={Lista} />
-        <Tab.Screen name="Dev" component={Desenvolvedores} />
+        <Tab.Screen name="Desenvolvedores" component={Desenvolvedores} />
       </Tab.Navigator>
     </NavigationContainer>
   );

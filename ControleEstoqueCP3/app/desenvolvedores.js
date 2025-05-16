@@ -10,7 +10,7 @@ export default function Desenvolvedores() {
       <ScrollView contentContainerStyle={styles.container}>
         <Stack.Screen
           options={{
-            title: "Integrantes",
+            title: "Desenvolvedores",
             headerStyle: {
               backgroundColor: '#377cff',
             },
