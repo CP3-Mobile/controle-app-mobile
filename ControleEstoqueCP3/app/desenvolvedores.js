@@ -1,35 +1,73 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { Stack } from "expo-router";
+import React from "react";
+import { ScrollView, StyleSheet, Text } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+import Desenvolvedor from "../components/Desenvolvedor";
 
-export default function Desenvolvedores() {
+export default function DesenvolvedoresPage() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Desenvolvedores</Text>
+    <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Stack.Screen
+          options={{
+            title: "Integrantes",
+            headerStyle: {
+              backgroundColor: '#377cff',
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <Text style={styles.title}>Desenvolvedores</Text>
 
-      <Text style={styles.item}>👤 Nome: Gustavo de Aguiar Lima Silva</Text>
-      <Text style={styles.item}>📧 E-mail: joao.silva@email.com</Text>
 
-      <Text style={styles.item}>👤 Nome: Julio Cesar Conceição</Text>
-      <Text style={styles.item}>📧 E-mail: maria.oliveira@email.com</Text>
+        <Desenvolvedor
+          nome="Gustavo de Aguiar"
+          rm="557707"
+          sala="2TDSPF"
+          imgSrc={require("../assets/gu.png")}
+          githubUrl="https://github.com/gudeaguiar"
+          linkedinUrl="https://www.linkedin.com/in/gustavo-de-aguiar-sn160308/"
+        />  
 
-      {/* Adicione mais integrantes se necessário */}
-    </View>
+        <Desenvolvedor
+          nome="Julio Cesar"
+          rm="557298"
+          sala="2TDSPF"
+          imgSrc={require("../assets/julio.png")}
+          githubUrl="https://github.com/Julio-CRodrigues"
+          linkedinUrl="https://www.linkedin.com/in/julio-cesar-rodrigues29/"
+        />
+
+        <Desenvolvedor
+          nome="João Vitor Broggine Lopes"
+          rm="557129"
+          sala="2TDSPF"
+          imgSrc={require("../assets/jvb.png")}
+          githubUrl=""
+          linkedinUrl=""
+        />
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
-    padding: 24,
-    backgroundColor: '#fff',
-    flex: 1
+    padding: 16,
+    paddingBottom: 40,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center'
+    fontSize: 23,
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginBottom: 24,
+    marginTop: 30,
   },
-  item: {
-    fontSize: 16,
-    marginBottom: 10
-  }
+  githubUrl: {
+    color: "#5e17eb",
+  },
 });
