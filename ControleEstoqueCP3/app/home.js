@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home({ navigation }) {
   return (
-    <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
+    <LinearGradient colors={['#2951ff', '#74f488']} style={styles.container}>
       <Image source={require('../assets/controle-estoque.png')} style={styles.logo} />
 
       <Text style={styles.title}>Bem-vindo ao Controle de Estoque!</Text>
