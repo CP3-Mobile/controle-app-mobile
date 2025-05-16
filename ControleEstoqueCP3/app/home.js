@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 15,
+    textShadowColor: 'black',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
     textAlign: 'center',
     },
     title2: {
@@ -63,6 +66,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'white',
     paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: 'black',
     paddingHorizontal: 24,
     borderRadius: 8,
     marginBottom: 25,
