@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Desenvolvedor from "../components/Desenvolvedor";
 
-export default function DesenvolvedoresPage() {
+export default function Desenvolvedores() {
   return (
     <LinearGradient colors={['#94b9ff', '#cdffd8']} style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>

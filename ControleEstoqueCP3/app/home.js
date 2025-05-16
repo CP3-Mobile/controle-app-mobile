@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home({ navigation }) {
   return (
-    <LinearGradient colors={['#2951ff', '#74f488']} style={styles.container}>
+    <LinearGradient colors={['#2951ff', '#ff5959']} style={styles.container}>
       <Image source={require('../assets/controle-estoque.png')} style={styles.logo} />
 
       <Text style={styles.title}>Bem-vindo ao Controle de Estoque!</Text>
@@ -25,9 +25,9 @@ export default function Home({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Desenvolvedores')}
+        onPress={() => navigation.navigate('Desenvolvedor')}
       >
-        <Text style={styles.buttonText}>Desenvolvedores</Text>
+        <Text style={styles.buttonText}>Lista de Produtos</Text>
       </TouchableOpacity>
 
     </LinearGradient>
@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#ffffffaa',
+    backgroundColor: 'white',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
     marginBottom: 25,
   },
   buttonText: {
-    color: '#007bff',
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -100,7 +100,7 @@ export default function Cadastro() {
 
   return (
     <LinearGradient
-    colors={['#94b9ff', '#cdffd8']}
+    colors={['#2951ff', '#ff5959']}
     style={StyleSheet.absoluteFill}
   >
     <KeyboardAvoidingView
@@ -191,7 +191,8 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    flex: 1
+    marginTop: 80,
+    flex: 1,
   },
   scrollContainer: {
   padding: 16,
@@ -204,7 +205,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#aaa',
+    backgroundColor: 'white',
+    borderColor: 'black',
+    color: '',
     padding: 10,
     marginBottom: 12,
     borderRadius: 6
@@ -216,7 +219,8 @@ const styles = StyleSheet.create({
   },
   picker: {
     borderWidth: 1,
-    borderColor: '#aaa',
+    borderColor: 'black',
+    backgroundColor: 'white',
     marginBottom: 12
   },
   codigo: {
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   botaoScanner: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#2951ff',
     padding: 12,
     borderRadius: 6,
     alignItems: 'center',
