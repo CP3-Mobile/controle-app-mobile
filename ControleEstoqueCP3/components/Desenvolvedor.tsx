@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   link: {
-    color: "#377cff",
+    color: "#2951ff",
     fontSize: 16,
     fontWeight: "500",
   },
