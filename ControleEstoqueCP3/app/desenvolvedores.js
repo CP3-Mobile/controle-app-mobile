@@ -10,14 +10,14 @@ export default function Desenvolvedores() {
       <ScrollView contentContainerStyle={styles.container}>
         <Stack.Screen
           options={{
-            title: "Desenvolvedores",
+            title: "Devs",
             headerStyle: {
               backgroundColor: '#377cff',
             },
             headerTintColor: '#fff',
           }}
         />
-        <Text style={styles.title}>Desenvolvedores</Text>
+        <Text style={styles.title}>Devs</Text>
 
 
         <Desenvolvedor
