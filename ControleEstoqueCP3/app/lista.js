@@ -1,25 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Alert
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 
 export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
-    const carregarProdutos = async () => {
-      try {
-        const produtosSalvos = await AsyncStorage.getItem('produtos');
-        if (produtosSalvos !== null) {
-          setProdutos(JSON.parse(produtosSalvos));
-        }
-      } catch (error) {
-        console.error('Erro ao carregar os produtos:', error);
-      }
-    };
-
     carregarProdutos();
   }, []);
+
+  const carregarProdutos = async () => {
+    try {
+      const produtosSalvos = await AsyncStorage.getItem('produtos');
+      if (produtosSalvos !== null) {
+        setProdutos(JSON.parse(produtosSalvos));
+      }
+    } catch (error) {
+      console.error('Erro ao carregar os produtos:', error);
+    }
+  };
+
+  const excluirProduto = async (id) => {
+    Alert.alert('Confirmar exclusão', 'Deseja excluir este produto?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Excluir',
+        onPress: async () => {
+          const novaLista = produtos.filter((item) => item.id !== id);
+          setProdutos(novaLista);
+          await AsyncStorage.setItem('produtos', JSON.stringify(novaLista));
+        },
+        style: 'destructive',
+      },
+    ]);
+  };
+
+  const editarProduto = (produto) => {
+    router.push({
+      pathname: '/cadastro',
+      params: { produto: JSON.stringify(produto) }
+    });
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -30,6 +64,16 @@ export default function ListaProdutos() {
       <Text style={styles.itemText}>Lote: {item.lote}</Text>
       <Text style={styles.itemText}>Estado: {item.estado}</Text>
       <Text style={styles.itemText}>Código de Barras: {item.codigoBarras}</Text>
+
+      <View style={styles.botoesContainer}>
+        <TouchableOpacity style={styles.botaoEditar} onPress={() => editarProduto(item)}>
+          <Text style={styles.textoBotao}>Editar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.botaoExcluir} onPress={() => excluirProduto(item.id)}>
+          <Text style={styles.textoBotao}>Excluir</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -55,7 +99,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 40,
     marginBottom: 16,
     textAlign: 'center',
     color: '#fff',
@@ -70,6 +114,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 4,
     color: '#000',
+  },
+  botoesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  botaoEditar: {
+    backgroundColor: '#2951ff',
+    padding: 8,
+    borderRadius: 5,
+    flex: 1,
+    marginRight: 8,
+  },
+  botaoExcluir: {
+    backgroundColor: '#ff0a0a',
+    padding: 8,
+    borderRadius: 5,
+    flex: 1,
+    marginLeft: 8,
+  },
+  textoBotao: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   emptyText: {
     textAlign: 'center',

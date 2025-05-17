@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     marginBottom: 24,
-    marginTop: 30,
+    marginTop: 25,
   },
   githubUrl: {
     color: "#5e17eb",

@@ -56,6 +56,7 @@ export default function ProdutoForm({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="DD/MM/AAAA"
+            keyboardType="numeric"
             value={produto.fabricacao}
             onChangeText={text => setProduto({ ...produto, fabricacao: text })}
           />
@@ -64,6 +65,7 @@ export default function ProdutoForm({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="DD/MM/AAAA"
+            keyboardType="numeric"
             value={produto.validade}
             onChangeText={text => setProduto({ ...produto, validade: text })}
           />
