@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,24 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
-    carregarProdutos();
-  }, []);
-
-  const carregarProdutos = async () => {
-    try {
+  useFocusEffect(
+  useCallback(() => {
+    const carregarProdutos = async () => {
       const produtosSalvos = await AsyncStorage.getItem('produtos');
-      if (produtosSalvos !== null) {
-        setProdutos(JSON.parse(produtosSalvos));
-      }
-    } catch (error) {
-      console.error('Erro ao carregar os produtos:', error);
-    }
-  };
+      const produtos = produtosSalvos ? JSON.parse(produtosSalvos) : [];
+      setProdutos(produtos);
+    };
+
+    carregarProdutos();
+  }, [])
+);
+
 
   const excluirProduto = async (id) => {
     Alert.alert('Confirmar exclusão', 'Deseja excluir este produto?', [
