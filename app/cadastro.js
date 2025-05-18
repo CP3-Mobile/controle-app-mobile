@@ -15,6 +15,7 @@ import { Picker } from '@react-native-picker/picker';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLocalSearchParams } from 'expo-router';
 
 const estados = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT',
@@ -47,6 +48,26 @@ export default function Cadastro() {
   // Estados para edição
   const [editando, setEditando] = useState(false);
   const [produtoEditandoId, setProdutoEditandoId] = useState(null);
+  const { produto } = useLocalSearchParams();
+
+  useEffect(() => {
+  if (produto) {
+    try {
+      const produtoObj = JSON.parse(produto);
+      setNome(produtoObj.nome);
+      setFabricacao(produtoObj.fabricacao);
+      setValidade(produtoObj.validade);
+      setQuantidade(produtoObj.quantidade);
+      setLote(produtoObj.lote);
+      setEstado(produtoObj.estado);
+      setCodigoBarras(produtoObj.codigoBarras);
+      setEditando(true);
+      setProdutoEditandoId(produtoObj.id);
+    } catch (error) {
+      console.error('Erro ao carregar produto para edição:', error);
+    }
+  }
+}, [produto]);
 
   useEffect(() => {
     if (!permission?.granted) {
