@@ -36,8 +36,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a330cc7b-b1d9-447d-a743-114ea6b66df5"
+        "projectId": "638812aa-fa02-43bd-984a-bd1a1dfcd491"
       }
-    }
+    },
+    "owner": "julioccr"
   }
 }

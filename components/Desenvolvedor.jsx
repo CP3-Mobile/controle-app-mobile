@@ -1,14 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Linking } from "react-native";
 
-type DesenvolvedorProps = {
-  nome: string;
-  rm: string;
-  sala: string;
-  imgSrc: any;
-  githubUrl: string;
-  linkedinUrl: string;
-};
 
 export default function Desenvolvedor({
   nome,
@@ -17,8 +9,8 @@ export default function Desenvolvedor({
   imgSrc,
   githubUrl,
   linkedinUrl,
-}: DesenvolvedorProps) {
-  const abrirLink = (url: string) => {
+}) {
+  const abrirLink = (url) => {
     Linking.openURL(url).catch((err) => console.error("Erro ao abrir link:", err));
   };
 
