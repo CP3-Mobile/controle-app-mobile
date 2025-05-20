@@ -1,0 +1,3 @@
+rootProject.name = 'ControleEstoqueCP3'
+
+include ':app'
