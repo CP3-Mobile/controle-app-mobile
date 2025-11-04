@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import App from './app/index'; // aqui é onde está o BottomTabs
+import App from './app/index';
 
 registerRootComponent(App);
 export default App;
