@@ -1,31 +1,34 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 import { MotiView, MotiText } from 'moti';
 
 export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);
+  const [tick, setTick] = useState(0);
   const router = useRouter();
 
-  useEffect(() => {
-    carregarProdutos();
-  }, []);
+  useEffect(() => { carregarProdutos(); }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+      if (active) setTick((t) => t + 1);
+      return () => { active = false; };
+    }, [])
+  );
 
   const carregarProdutos = async () => {
     try {
       const produtosSalvos = await AsyncStorage.getItem('produtos');
-      if (produtosSalvos !== null) setProdutos(JSON.parse(produtosSalvos));
+      if (produtosSalvos) setProdutos(JSON.parse(produtosSalvos));
+      else setProdutos([]);
     } catch (error) {
       console.error('Erro ao carregar os produtos:', error);
+      setProdutos([]);
     }
   };
 
@@ -35,7 +38,7 @@ export default function ListaProdutos() {
       {
         text: 'Excluir',
         onPress: async () => {
-          const novaLista = produtos.filter((item) => item.id !== id);
+          const novaLista = (produtos || []).filter((item) => item?.id !== id);
           setProdutos(novaLista);
           await AsyncStorage.setItem('produtos', JSON.stringify(novaLista));
         },
@@ -48,38 +51,40 @@ export default function ListaProdutos() {
     router.push({ pathname: '/cadastro', params: { produto: JSON.stringify(produto) } });
   };
 
-  const renderItem = ({ item, index }) => (
-    <MotiView
-      from={{ opacity: 0, translateY: 12, scale: 0.98 }}
-      animate={{ opacity: 1, translateY: 0, scale: 1 }}
-      transition={{ type: 'timing', duration: 300, delay: 80 + index * 60 }}
-      style={styles.itemContainer}
-    >
-      <MotiText style={styles.itemText} from={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 100 + index * 60 }}>
-        Nome: {item.nome}
-      </MotiText>
-      <Text style={styles.itemText}>Fabricação: {item.fabricacao}</Text>
-      <Text style={styles.itemText}>Validade: {item.validade}</Text>
-      <Text style={styles.itemText}>Quantidade: {item.quantidade}</Text>
-      <Text style={styles.itemText}>Lote: {item.lote}</Text>
-      <Text style={styles.itemText}>Estado: {item.estado}</Text>
-      <Text style={styles.itemText}>Código de Barras: {item.codigoBarras}</Text>
+  const renderItem = ({ item, index }) => {
+    if (!item) return null;
+    return (
+      <MotiView
+        from={{ opacity: 0, translateY: 12, scale: 0.98 }}
+        animate={{ opacity: 1, translateY: 0, scale: 1 }}
+        transition={{ type: 'timing', duration: 300, delay: 80 + index * 60 }}
+        style={styles.itemContainer}
+      >
+        <MotiText style={styles.itemText} from={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 100 + index * 60 }}>
+          Nome: {item.nome}
+        </MotiText>
+        <Text style={styles.itemText}>Fabricação: {item.fabricacao}</Text>
+        <Text style={styles.itemText}>Validade: {item.validade}</Text>
+        <Text style={styles.itemText}>Quantidade: {item.quantidade}</Text>
+        <Text style={styles.itemText}>Lote: {item.lote}</Text>
+        <Text style={styles.itemText}>Estado: {item.estado}</Text>
+        <Text style={styles.itemText}>Código de Barras: {item.codigoBarras}</Text>
 
-      <View style={styles.botoesContainer}>
-        <MotiView from={{ scale: 0.98 }} animate={{ scale: 1 }} transition={{ duration: 200 }} style={{ flex: 1, marginRight: 8 }}>
-          <TouchableOpacity style={styles.botaoEditar} onPress={() => editarProduto(item)} activeOpacity={0.9}>
-            <Text style={styles.textoBotao}>Editar</Text>
-          </TouchableOpacity>
-        </MotiView>
-
-        <MotiView from={{ scale: 0.98 }} animate={{ scale: 1 }} transition={{ duration: 200 }} style={{ flex: 1, marginLeft: 8 }}>
-          <TouchableOpacity style={styles.botaoExcluir} onPress={() => excluirProduto(item.id)} activeOpacity={0.9}>
-            <Text style={styles.textoBotao}>Excluir</Text>
-          </TouchableOpacity>
-        </MotiView>
-      </View>
-    </MotiView>
-  );
+        <View style={styles.botoesContainer}>
+          <MotiView from={{ scale: 0.98 }} animate={{ scale: 1 }} transition={{ duration: 200 }} style={{ flex: 1, marginRight: 8 }}>
+            <TouchableOpacity style={styles.botaoEditar} onPress={() => editarProduto(item)} activeOpacity={0.9}>
+              <Text style={styles.textoBotao}>Editar</Text>
+            </TouchableOpacity>
+          </MotiView>
+          <MotiView from={{ scale: 0.98 }} animate={{ scale: 1 }} transition={{ duration: 200 }} style={{ flex: 1, marginLeft: 8 }}>
+            <TouchableOpacity style={styles.botaoExcluir} onPress={() => excluirProduto(item.id)} activeOpacity={0.9}>
+              <Text style={styles.textoBotao}>Excluir</Text>
+            </TouchableOpacity>
+          </MotiView>
+        </View>
+      </MotiView>
+    );
+  };
 
   return (
     <LinearGradient colors={['#2951ff', '#ff5959']} style={styles.container}>
@@ -91,17 +96,13 @@ export default function ListaProdutos() {
       >
         Lista de Produtos
       </MotiText>
+
       <FlatList
-        data={produtos}
-        keyExtractor={(item) => item.id.toString()}
+        data={Array.isArray(produtos) ? produtos : []}
+        keyExtractor={(item, i) => String(item?.id ?? i) + '-' + tick} // <- protegido
         renderItem={renderItem}
         ListEmptyComponent={
-          <MotiText
-            style={styles.emptyText}
-            from={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ type: 'timing', duration: 300 }}
-          >
+          <MotiText style={styles.emptyText} from={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'timing', duration: 300 }}>
             Nenhum produto cadastrado.
           </MotiText>
         }

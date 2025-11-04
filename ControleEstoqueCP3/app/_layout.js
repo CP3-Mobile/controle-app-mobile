@@ -1,4 +1,3 @@
-// app/_layout.js (ou onde fica seu layout de tabs)
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';

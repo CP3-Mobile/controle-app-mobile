@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-  ScrollView,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
+  View, Text, TextInput, Button, StyleSheet, Alert, ScrollView,
+  TouchableOpacity, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MotiView, MotiText } from 'moti';
+import { AnimateOnFocusView, AnimateOnFocusText } from '../utils/AnimateOnFocus';
 
 const estados = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
 
@@ -109,15 +101,8 @@ export default function Cadastro() {
   };
 
   const limparCampos = () => {
-    setNome('');
-    setFabricacao('');
-    setValidade('');
-    setQuantidade('');
-    setLote('');
-    setEstado('');
-    setCodigoBarras('');
-    setScannerAtivo(false);
-    setShowManualInput(false);
+    setNome(''); setFabricacao(''); setValidade(''); setQuantidade(''); setLote('');
+    setEstado(''); setCodigoBarras(''); setScannerAtivo(false); setShowManualInput(false);
   };
 
   if (!permission) return <Text>Solicitando permissão da câmera...</Text>;
@@ -131,89 +116,47 @@ export default function Cadastro() {
     );
   }
 
+  const campos = [
+    { ph: 'Nome do Produto', v: nome, s: setNome, k: 'nome' },
+    { ph: 'Data de Fabricação (dd/mm/aaaa)', v: fabricacao, s: (t) => setFabricacao(formatarData(t)), k: 'fab', keyboardType: 'numeric' },
+    { ph: 'Prazo de Validade (dd/mm/aaaa)', v: validade, s: (t) => setValidade(formatarData(t)), k: 'val', keyboardType: 'numeric' },
+    { ph: 'Quantidade', v: quantidade, s: setQuantidade, k: 'qtd', keyboardType: 'numeric' },
+    { ph: 'Lote (letras e números)', v: lote, s: setLote, k: 'lote' },
+  ];
+
   return (
     <LinearGradient colors={['#2951ff', '#ff5959']} style={StyleSheet.absoluteFill}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-          <MotiText
-            style={styles.title}
-            from={{ opacity: 0, translateY: -8 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{ type: 'timing', duration: 350 }}
-          >
-            Cadastro de Produto
-          </MotiText>
+          <AnimateOnFocusText style={styles.title}>Cadastro de Produto</AnimateOnFocusText>
 
-          {[
-            { ph: 'Nome do Produto', v: nome, s: setNome, k: 'nome' },
-            { ph: 'Data de Fabricação (dd/mm/aaaa)', v: fabricacao, s: (t)=>setFabricacao(formatarData(t)), k: 'fab', keyboardType: 'numeric' },
-            { ph: 'Prazo de Validade (dd/mm/aaaa)', v: validade, s: (t)=>setValidade(formatarData(t)), k: 'val', keyboardType: 'numeric' },
-            { ph: 'Quantidade', v: quantidade, s: setQuantidade, k: 'qtd', keyboardType: 'numeric' },
-            { ph: 'Lote (letras e números)', v: lote, s: setLote, k: 'lote' },
-          ].map((f, i) => (
-            <MotiView
-              key={f.k}
-              from={{ opacity: 0, translateY: 10 }}
-              animate={{ opacity: 1, translateY: 0 }}
-              transition={{ type: 'timing', duration: 300, delay: 80 + i * 60 }}
-            >
+          {campos.map((f, i) => (
+            <AnimateOnFocusView key={f.k}>
               <TextInput
                 style={styles.input}
                 placeholder={f.ph}
                 value={f.v}
                 onChangeText={f.s}
-                keyboardType={f.keyboardType}
+                {...(f.keyboardType ? { keyboardType: f.keyboardType } : {})}
               />
-            </MotiView>
+            </AnimateOnFocusView>
           ))}
 
-          <MotiText
-            style={styles.label}
-            from={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ type: 'timing', duration: 250, delay: 420 }}
-          >
-            Estado de Origem
-          </MotiText>
-          <MotiView
-            from={{ opacity: 0, translateY: 8 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{ type: 'timing', duration: 280, delay: 460 }}
-          >
+          <AnimateOnFocusText style={styles.label}>Estado de Origem</AnimateOnFocusText>
+          <AnimateOnFocusView>
             <Picker selectedValue={estado} onValueChange={(v) => setEstado(v)} style={styles.picker}>
               <Picker.Item label="Selecione um estado" value="" />
-              {estados.map((uf) => (
-                <Picker.Item key={uf} label={uf} value={uf} />
-              ))}
+              {estados.map((uf) => <Picker.Item key={uf} label={uf} value={uf} />)}
             </Picker>
-          </MotiView>
+          </AnimateOnFocusView>
 
-          <MotiText
-            style={styles.label}
-            from={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ type: 'timing', duration: 250, delay: 520 }}
-          >
-            Código de Barras
-          </MotiText>
-
+          <AnimateOnFocusText style={styles.label}>Código de Barras</AnimateOnFocusText>
           {codigoBarras !== '' && (
-            <MotiText
-              style={styles.codigo}
-              from={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ type: 'timing', duration: 250, delay: 560 }}
-            >
-              {codigoBarras}
-            </MotiText>
+            <AnimateOnFocusText style={styles.codigo}>{codigoBarras}</AnimateOnFocusText>
           )}
 
           {showManualInput && (
-            <MotiView
-              from={{ opacity: 0, translateY: 8 }}
-              animate={{ opacity: 1, translateY: 0 }}
-              transition={{ type: 'timing', duration: 280, delay: 580 }}
-            >
+            <AnimateOnFocusView>
               <TextInput
                 style={styles.input}
                 placeholder="Digite o código de barras"
@@ -221,16 +164,11 @@ export default function Cadastro() {
                 value={codigoBarras}
                 onChangeText={setCodigoBarras}
               />
-            </MotiView>
+            </AnimateOnFocusView>
           )}
 
-          <View style={styles.botoesLinha}>
-            <MotiView
-              from={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'timing', duration: 280, delay: 620 }}
-              style={{ flex: 1 }}
-            >
+          <AnimateOnFocusView>
+            <View style={styles.botoesLinha}>
               <TouchableOpacity
                 onPress={() => { setScannerAtivo(true); setShowManualInput(false); }}
                 style={styles.botaoScanner}
@@ -238,14 +176,6 @@ export default function Cadastro() {
               >
                 <Text style={styles.textoBotao}>Escanear Código</Text>
               </TouchableOpacity>
-            </MotiView>
-
-            <MotiView
-              from={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'timing', duration: 280, delay: 660 }}
-              style={{ flex: 1 }}
-            >
               <TouchableOpacity
                 onPress={() => { setScannerAtivo(false); setShowManualInput(true); }}
                 style={styles.botaoManual}
@@ -253,38 +183,31 @@ export default function Cadastro() {
               >
                 <Text style={styles.textoBotao}>Digitar Manualmente</Text>
               </TouchableOpacity>
-            </MotiView>
-          </View>
+            </View>
+          </AnimateOnFocusView>
 
           {scannerAtivo && (
-            <MotiView
-              style={styles.scannerContainer}
-              from={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'timing', duration: 280 }}
-            >
-              <CameraView
-                onBarcodeScanned={handleBarCodeScanned}
-                style={StyleSheet.absoluteFillObject}
-                barcodeScannerSettings={{ barcodeTypes: ['qr', 'ean13', 'ean8', 'code128'] }}
-              />
-              <TouchableOpacity onPress={() => setScannerAtivo(false)} style={styles.cancelarBotao}>
-                <Text style={styles.textoBotao}>Cancelar</Text>
-              </TouchableOpacity>
-            </MotiView>
+            <AnimateOnFocusView>
+              <View style={styles.scannerContainer}>
+                <CameraView
+                  onBarcodeScanned={handleBarCodeScanned}
+                  style={StyleSheet.absoluteFillObject}
+                  barcodeScannerSettings={{ barcodeTypes: ['qr', 'ean13', 'ean8', 'code128'] }}
+                />
+                <TouchableOpacity onPress={() => setScannerAtivo(false)} style={styles.cancelarBotao}>
+                  <Text style={styles.textoBotao}>Cancelar</Text>
+                </TouchableOpacity>
+              </View>
+            </AnimateOnFocusView>
           )}
 
-          <MotiView
-            from={{ opacity: 0, translateY: 8 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{ type: 'timing', duration: 300, delay: 700 }}
-          >
+          <AnimateOnFocusView>
             <Button
               title={editando ? 'ATUALIZAR PRODUTO' : 'SALVAR PRODUTO'}
               onPress={salvarProduto}
               color="#28a745"
             />
-          </MotiView>
+          </AnimateOnFocusView>
         </ScrollView>
       </KeyboardAvoidingView>
     </LinearGradient>
